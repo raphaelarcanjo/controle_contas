@@ -1,1 +1,1 @@
-# Controle de contas em Node.JS
+# Controle de contas em Python
