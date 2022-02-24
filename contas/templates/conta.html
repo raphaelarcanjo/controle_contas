@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h1>Contas</h1>
+<hr>
+
+<form action="{% url 'criar_conta' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ conta.id }}">
+    <div class="mb-3">
+        <label for="titulo">Título</label>
+        <input type="text" name="titulo" class="form-control" id="titulo" value="{{ conta.titulo }}">
+    </div>
+    <div class="mb-3">
+        <label for="vencimento">Data de vencimento</label>
+        <input type="date" name="vencimento" class="form-control" id="vencimento"  value="{{ conta.data_vencimento|date:'Y-m-d' }}">
+    </div>
+    <div class="mb-3">
+        <label for="pagamento">Data de pagamento</label>
+        <input type="date" name="pagamento" class="form-control pagamento" id="pagamento"  value="{{ conta.data_pagamento|date:'Y-m-d' }}">
+    </div>
+    <div class="mb-3">
+        <label for="valor">Valor</label>
+        <div class="input-group">
+            <span class="input-group-text"> R$ </span>
+            <input type="number" name="valor" step="0.01" min="0.01" class="form-control" id="valor"  value="{{ conta.valor }}">
+        </div>
+    </div>
+    <div class="form-check mb-3">
+        <input type="checkbox" name="recorrente" class="form-check-input" id="recorrente" {% if conta.recorrente %} checked="" {% endif %}>
+        <label for="recorrente" class="form-check-label">Conta recorrente</label>
+    </div>
+    <div class="form-check mb-3">
+        <input type="checkbox" name="paga" class="form-check-input paga" onchange="data_pagamento(this)" id="paga" {% if conta.paga %} checked="" {% endif %}>
+        <label for="paga" class="form-check-label">Conta paga</label>
+    </div>
+    <div class="mb-3">
+        <a href="{% url 'index' %}" class="btn btn-danger">Voltar</a>
+        <input type="submit" value="Salvar" class="btn btn-primary">
+    </div>
+</form>
+{% endblock %}

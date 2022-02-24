@@ -2,4 +2,36 @@
 
 {% block content %}
 <h1>Contas</h1>
+<hr>
+<div class="d-block text-end mb-3">
+    <a href="{% url 'criar_conta' %}" class="btn btn-primary">Adicionar</a>
+</div>
+
+{% for conta in contas %}
+<div class="card {% if conta.paga %}bg-success text-white{% elif conta.atrasada %}bg-danger text-white{% endif %} mb-3">
+    <div class="rounded d-flex justify-content-between bg-dark text-white p-3">
+        <div>
+            <b><u> {{ conta.titulo }} </u></b>
+        </div>
+        <div>
+            <a href="{% url 'atualizar_conta' conta.id %}" class="btn btn-sm btn-outline-primary">
+                &#9999;
+            </a>
+            <a href="{% url 'excluir_conta' conta.id %}" class="btn btn-sm btn-outline-danger excluir">
+                &#128465;
+            </a>
+            <a href="{% url 'marcar_paga' conta.id %}" class="btn btn-sm btn-outline-success">
+                &#10003;
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <p> Vencimento: {{ conta.data_vencimento|date:'d/m/Y' }} </p>
+        <p> Valor: R$ {{ conta.valor|floatformat:2 }} </p>
+        {% if conta.paga %}
+        <p> Pagamento: {{ conta.data_pagamento|date:'d/m/Y' }} </p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

@@ -8,3 +8,7 @@ class Contas(models.Model):
     data_pagamento = models.DateTimeField(null=True, blank=True, default=None)
     recorrente = models.BooleanField(null=True, blank=True, default=False)
     paga = models.BooleanField(null=True, blank=True, default=False)
+
+    @property
+    def atrasada(self):
+        return (datetime.now().date() > self.data_vencimento.date()) and self.data_pagamento is None
